@@ -1,0 +1,150 @@
+import streamlit as st 
+import pandas as pd
+import numpy as np 
+from PIL import Image
+import requests
+from streamlit_lottie import st_lottie
+import time
+import os
+import csv
+#page layout
+st.set_page_config(page_title="Amazon",
+	page_icon=":tada:",
+	layout="wide",
+	initial_sidebar_state="expanded")
+#text to speech
+
+#lottie loader
+def loader(url):
+	r = requests.get(url)
+	if r.status_code != 200:
+		return none
+	return r.json()
+
+#sidebar
+with st.sidebar:
+	st.header("welcome to :red[Amazon]:collision: ")
+	opt = st.radio(":blue[Menu]",["Home","History","Growth"])
+	st.write("---")
+	st.write("Wanna join the club..")
+	name = st.text_input("Tell us your name:",placeholder="here..")
+	mail = st.text_input("Tell us your email:",placeholder="enter proper..")
+	age = st.slider("Tell us your age",0,100,16)
+	if st.button("submit"):
+		st.success("Your record has been added successfully..Thanks for joining the club..")
+	st.write("---")
+	st.write("""version : 2.11.4 \n\n region : India""")
+
+
+#Home page
+if opt=="Home":
+	with st.container():
+		st.subheader("Hello people..This is :green[Dhikshanth:wave:]..")
+		col0,col1 = st.columns([3,2])
+		with col0:
+			st.title(":red[Amazon]")
+			st.write("""\tAmazon.com, Inc. is an American multinational technology company focusing on e-commerce, 
+				cloud computing, online advertising, digital streaming, and artificial intelligence.
+				 It is considered one of the Big Five American technology companies, alongside Alphabet, Apple, Meta and Microsoft. """)
+			img,data = st.columns([2,2])
+			with img:
+				st.write("---")
+				img = Image.open("C:\\Users\\srice\\OneDrive\\Desktop\\streamlit tut\\code\\jeff.jpg")
+				st.image(img,caption="Jeff Besos")
+			with data:
+				st.header("Jeff Besos")
+				st.write("""-Born: January 12, 1964 (age 60)
+					\n\n-Education: Princeton University (BSE)""")
+				sign = Image.open("C:\\Users\\srice\\OneDrive\\Pictures\\sign1.jpg")
+				st.image(sign,caption="signature of Jeff Besos")
+		with col1:
+			met0,met1,met2= st.columns([2,2,2])
+			with met0:
+				st.metric("stock Price","0.56","44%")
+			with met1:
+				st.metric("Web Cookies","1276","-60")
+			with met2:
+				st.metric("Trade Price","Rs.109","+3%")
+			shop = loader("https://lottie.host/a1c8f731-2e89-4209-9af8-9a1b932a3486/iVDOblPKIx.json")
+			st.lottie(shop,width=300,height=300,key="shop")
+			st.subheader("'Life's too short to hang out with people who aren't resourceful.'")
+		st.write("---")
+ 
+ #Growth page			
+if opt == "Growth":
+	with st.container():
+		col2,col3 = st.columns([2,2])
+		with col2:
+			st.title("Amazons :orange[Growth]📉")
+			st.write("""    -Amazon.com's success is due in part to its innovative business model, 
+				which allows customers to buy anything from books to furniture to electronics online. 
+				\n-The company has also been successful in its efforts to expand beyond its core retail 
+				business into other areas, such as cloud computing and streaming media.""")			
+			st.subheader("""''Rome isn't built in a day.. As like :blue[Amazon] is not built within a night..!" """)
+		with col3 :
+			tab1,tab2 = st.tabs(["Charts","Line"])
+			data=np.random.randn(4,4)
+			with tab1:
+				tab1.subheader("Data with Area chart")
+				tab1.area_chart(data,width=200,height=200)
+			with tab2:
+				tab2.subheader("Data with line chart")
+				tab2.line_chart(data,width=200,height=200)
+			
+		col4,col5 = st.columns([2,2])
+		with col5:
+			lot,feed = st.columns([2,2])
+			with lot:
+				star = loader("https://lottie.host/334ccd2a-580a-48b7-837c-9c077ab383db/nO6nfITlJE.json")
+				st.lottie(star,width=200,height=200)
+			with feed:
+				st.header(":green[Strategy🧊]")
+				st.write("""Customer obsession rather than competitor focus, passion for invention, commitment to operational excellence, and long-term thinking.
+				 Amazon strives to be Earth's most customer-centric company, Earth's best employer, and Earth's safest place to work.""")
+				
+		with col4:
+			with st.expander("Corporate Agility",expanded=False):
+				st.write(" 	The ability of an organization to renew itself, adapt, change quickly, and succeed in a rapidly changing, ambiguous, turbulent environment.")
+			with st.expander("Customer Centricity"):
+				st.write("	Customer centricity is the ability of people in an organization to understand customers' situations, perceptions, and expectations")
+			st.divider()	
+		chat = st.chat_input()
+		with open('chat.txt', 'r') as F:
+			reader = csv.reader(F)
+			for coloumn in reader:
+				if coloumn[0] in chat:
+					st.write(coloumn[1])
+#history page
+if opt == "History":
+	with st.container():
+		st.title(":red[History] of Legacy")
+		col6,col7=st.columns([2,3])
+		with col7:
+			st.write("""-Founded in 1994 by Jeff Bezos in his garage in Bellevue, Washington,:green[ Amazon began as an online bookstore]. 
+				\n-Bezos saw the potential of the internet as a platform for commerce and aimed to create a virtual marketplace that 
+				offered an extensive selection of products at competitive prices.""")
+			with st.expander("Meaning of :blue[Amazon]'s Logo",expanded=False):
+				st.write("""The arrow shape in the logo extends from the letter “A” to the letter “Z” while 
+					curving to form a smile, 
+					representing customer satisfaction,
+					 endless product selection, and end-to-end service.""")
+
+			
+
+		with col6:
+			
+				
+				progress_bar = st.sidebar.progress(0)
+				status_text = st.sidebar.empty()
+				last_rows = np.random.randn(5, 2)
+				chart = st.line_chart(last_rows,width =200, height=300)
+
+				for i in range(1, 50):
+				    new_rows = last_rows[-1, :] + np.random.randn(5, 2).cumsum(axis=0)
+				    status_text.text("%i%% Complete" % i)
+				    chart.add_rows(new_rows)
+				    progress_bar.progress(i)
+				    last_rows = new_rows
+				    time.sleep(0.05)
+				progress_bar.empty()
+		st.divider()
